@@ -37,9 +37,9 @@ p = keggLink('hsa','pathway')
 map = split(names(p),unname(p))
 
 # cluster by tissue expression (BioGPS, GNF, GeTX)
-GTEx_file <- '../data/GTEx/GTEx_Analysis_v6_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct'
-if(!file.exists('../data/tmp.txt') | override){
-	system(paste("grep -E '",paste(c('Name',unique(BM$ensembl_gene_id)),collapse="|"),GTEx_file,"' > ../data/tmp.txt",sep=''))
+GTEx_file <- '../data/DATA_Autism_Genomic_Varients/GTEx/GTEx_Analysis_v6_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct'
+if(!file.exists('../data/DATA_Autism_Genomic_Varients/tmp.txt') | override){
+	system(paste("grep -E '",paste(c('Name',unique(BM$ensembl_gene_id)),collapse="|"),GTEx_file,"' > ../data/DATA_Autism_Genomic_Varients/tmp.txt",sep=''))
 }
 expression_annot <- read.csv('GTEx/GTEx_Data_V6_Annotations_SampleAttributesDS.txt',sep='\t')
 expression <- read.csv('tmp.txt',sep='\t')
@@ -78,7 +78,8 @@ dL[['GO_jaccard_ramigo_paths']] <- 1 - GO_jaccard(BM,gene_ids,gene_type,ramigo_s
 dL[['abs_tissue_cor_pearson']] <- 1-abs( cor(t(expression[,-c(1:2)]+1)) )
 
 
-# GeneMania combined
+# GeneMania combined 
+# wget -r --no-parent http://genemania.org/data/current/Homo_sapiens/
 GM_comb <- load_GeneMania(combined=TRUE)
 dL[['geneMania_combined_net_weightedShortestPath']] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_comb,weighted=TRUE,func=normalize)
 dL[['geneMania_combined_net_unweightedShortestPath']] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_comb,weighted=FALSE)

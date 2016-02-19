@@ -17,15 +17,15 @@ load_HuNet <- function(threshold=.7){
 
 load_GeneMania <- function(combined=TRUE,type=c('Physical_Interaction','Predicted','Genetic_Interactions','Pathway','Co-localization','Co-expression','Shared_protein_domains'),alltypes=FALSE){
 	if(combined){
-		r <- read.csv('../data/GeneMania/combined/COMBINED.DEFAULT_NETWORKS.BP_COMBINING.txt',sep='\t')
+		r <- read.csv('../data/DATA_Autism_Genomic_Varients/GeneMania/combined/COMBINED.DEFAULT_NETWORKS.BP_COMBINING.txt',sep='\t')
 		g <- graph.data.frame(r,directed=FALSE)
 	}else{
-		ls <- system('ls ../data/GeneMania/individual/*.txt',intern=TRUE)
+		ls <- system('ls ../data/DATA_Autism_Genomic_Varients/GeneMania/individual/*.txt',intern=TRUE)
 		rL <- list()
 		for(l in ls){
 			lp <- strsplit(l,split='\\.')[[1]]
 			if(lp[1]==type | alltypes){
-				rL[[l]] <- read.csv(paste('../data/GeneMania/individual/',l,sep=''),sep='\t')
+				rL[[l]] <- read.csv(paste('../data/DATA_Autism_Genomic_Varients/GeneMania/individual/',l,sep=''),sep='\t')
 				rL[[l]]$type <- lp[1]
 				rL[[l]]$database <- lp[2]
 			}
