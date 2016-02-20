@@ -8,7 +8,8 @@ library(ggplot2)
 override=FALSE
 signed=FALSE
 
-ensembl=useMart("ensembl",'hsapiens_gene_ensembl')
+#ensembl=useMart("ensembl",'hsapiens_gene_ensembl')
+ensembl=useMart("ENSEMBL_MART_ENSEMBL",dataset="hsapiens_gene_ensembl", host="www.ensembl.org")
 
 r1 <- read.xlsx('geneList/Courchesne_summary_10062015.xlsx',sheetIndex=1)
 r2 <- read.csv('geneList/tito_list_clinical_data.txt')[,1:5]
