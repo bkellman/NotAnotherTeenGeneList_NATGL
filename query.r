@@ -43,7 +43,7 @@ if(!file.exists('../data/DATA_Autism_Genomic_Varients/tmp.txt') | override){
 	system(paste("grep -E '",paste(c('Name',unique(BM$ensembl_gene_id)),collapse="|"),GTEx_file,"' > ../data/DATA_Autism_Genomic_Varients/tmp.txt",sep=''))
 }
 expression_annot <- read.csv('../data/DATA_Autism_Genomic_Varients/GTEx/GTEx_Data_V6_Annotations_SampleAttributesDS.txt',sep='\t')
-expression <- read.csv('tmp.txt',sep='\t')
+expression <- read.csv('../data/DATA_Autism_Genomic_Varients/tmp.txt',sep='\t')
 rownames(expression) <- unlist(lapply(strsplit(as.character(expression$Name),'\\.'),function(x) x[1]))
 expression <- expression[,-c(1:2)]
 expression <- data.matrix(expression) # make data matrix
