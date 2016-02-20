@@ -1,4 +1,4 @@
-source('HuNet_Distance/HuNet.func.R')
+#source('HuNet_Distance/HuNet.func.R')
 library(reshape)
 library(igraph)
 library(RamiGO)
