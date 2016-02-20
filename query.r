@@ -34,8 +34,8 @@ BM = getBM(attributes=attributes, filters=gene_type, values=gene_ids, mart=ensem
 gene_ids <- unique(BM$refseq_mrna)
 
 # get KEGG pathwasy
-p = keggLink('hsa','pathway')
-map = split(names(p),unname(p))
+#p = keggLink('hsa','pathway')
+#map = split(names(p),unname(p))
 
 # cluster by tissue expression (BioGPS, GNF, GeTX)
 GTEx_file <- '../data/DATA_Autism_Genomic_Varients/GTEx/GTEx_Analysis_v6_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct'
