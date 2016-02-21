@@ -17,7 +17,8 @@ load_HuNet <- function(threshold=.7){
 
 load_GeneMania <- function(combined=TRUE,type=c('Physical_Interaction','Predicted','Genetic_Interactions','Pathway','Co-localization','Co-expression','Shared_protein_domains'),alltypes=FALSE){
 	if(combined){
-		r <- read.csv('../data/DATA_Autism_Genomic_Varients/GeneMania/combined/COMBINED.DEFAULT_NETWORKS.BP_COMBINING.txt',sep='\t')
+		r <- read.csv('../data/DATA_Autism_Genomic_Varients/GeneMania/combined/COMBINED.DEFAULT_NETWORKS.BP_COMBINING.txt',sep='\t',stringsAsFactors=FALSE)
+		colnames(r)[3] <- 'weight'
 		g <- graph.data.frame(r,directed=FALSE)
 	}else{
 		ls <- system('ls ../data/DATA_Autism_Genomic_Varients/GeneMania/individual/*.txt',intern=TRUE)
@@ -25,7 +26,7 @@ load_GeneMania <- function(combined=TRUE,type=c('Physical_Interaction','Predicte
 		for(l in ls){
 			lp <- strsplit(l,split='\\.')[[1]]
 			if(lp[1]==type | alltypes){
-				rL[[l]] <- read.csv(paste('../data/DATA_Autism_Genomic_Varients/GeneMania/individual/',l,sep=''),sep='\t')
+				rL[[l]] <- read.csv(paste('../data/DATA_Autism_Genomic_Varients/GeneMania/individual/',l,sep=''),sep='\t',stringsAsFactors=FALSE)
 				rL[[l]]$type <- lp[1]
 				rL[[l]]$database <- lp[2]
 			}
@@ -37,7 +38,12 @@ load_GeneMania <- function(combined=TRUE,type=c('Physical_Interaction','Predicte
 }
 
 Network_ShortestPaths_distance <- function(terms,Network,func=function(x) x,weighted=TRUE){
-	sp <- shortest.paths(Network, v=terms, to=terms ,mode = "all",mode=ifelse(weighted,'automatic','unweighted'))
+	terms_i = which(names(V(GM_comb)) %in% unique(BM$ensembl_gene_id))
+	if(weighted){
+		sp <- shortest.paths(Network, from=terms_i, to=terms_i ,mode = "all",weights=NULL)
+	}else{
+		sp <- shortest.paths(Network, from=terms_i, to=terms_i ,mode = "all",weights=NA)
+	}
 	func(sp)
 }
 

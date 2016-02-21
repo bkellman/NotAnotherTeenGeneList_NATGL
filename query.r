@@ -82,17 +82,17 @@ dL[['abs_tissue_cor_pearson']] <- 1-abs( cor(t(expression[,-c(1:2)]+1)) )
 # GeneMania combined 
 # wget -r --no-parent http://genemania.org/data/current/Homo_sapiens/
 GM_comb <- load_GeneMania(combined=TRUE)
+normalize <- function(x) x/max(x)
 dL[['geneMania_combined_net_weightedShortestPath']] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_comb,weighted=TRUE,func=normalize)
-dL[['geneMania_combined_net_unweightedShortestPath']] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_comb,weighted=FALSE)
+dL[['geneMania_combined_net_unweightedShortestPath']] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_comb,weighted=FALSE,func=normalize)
 
 
 types<-c('Physical_Interaction','Predicted','Genetic_Interactions','Pathway','Co-localization','Co-expression','Shared_protein_domains')
 # GeneMania individual
-normalize <- function(x) x/max(x)
 for(t_i in types){
 	GM_df <- load_GeneMania(combined=FALSE,type=t_i)
 	dL[[paste('geneMania_',t_i,'_net_weightedShortestPath',sep='')]] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_df,weighted=TRUE,func=normalize)
-	dL[[paste('geneMania_',t_i,'_net_unweightedShortestPath',sep='')]] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_df,weighted=FALSE)	
+	dL[[paste('geneMania_',t_i,'_net_unweightedShortestPath',sep='')]] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_df,weighted=FALSE,func=normalize)	
 }
 
 
