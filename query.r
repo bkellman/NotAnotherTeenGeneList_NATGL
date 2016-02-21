@@ -126,7 +126,7 @@ library(ape)
 x<-pcoa(as.dist(d), correction="none", rn=NULL)
  
 ## S3 method for class 'pcoa':
-biplot(x, Y=NULL, plot.axes = c(1,2), dir.axis1=1, dir.axis2=1, rn=NULL, ...))
+biplot(x, Y=NULL, plot.axes = c(1,2), dir.axis1=1, dir.axis2=1, rn=NULL)
 
 
 
