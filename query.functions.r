@@ -25,13 +25,15 @@ load_GeneMania <- function(combined=TRUE,type=c('Physical_Interaction','Predicte
 		rL <- list()
 		for(l in ls){
 			lp <- strsplit(l,split='\\.')[[1]]
-			if(lp[1]==type | alltypes){
-				rL[[l]] <- read.csv(paste('../data/DATA_Autism_Genomic_Varients/GeneMania/individual/',l,sep=''),sep='\t',stringsAsFactors=FALSE)
+			if(any(lp[1]==type) | alltypes){
+				rL[[l]] <- read.csv(l,sep='\t',stringsAsFactors=FALSE)
+#				rL[[l]] <- read.csv(paste('../data/DATA_Autism_Genomic_Varients/GeneMania/individual/',l,sep=''),sep='\t',stringsAsFactors=FALSE)
 				rL[[l]]$type <- lp[1]
 				rL[[l]]$database <- lp[2]
 			}
 		}
 		r <- do.call(rbind,rL)
+		colnames(r)[3] <- 'weight'
 		g <- graph.data.frame(r,directed=FALSE)
 	}
 	g
