@@ -96,7 +96,8 @@ for(t_i in types){
 }
 
 
-
+### save
+save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 
 ### combine distance matrixes
 dL[['final']] <- combine(dL,sum,BM,gene_ids,gene_type)
@@ -119,6 +120,13 @@ plot(hclust(as.dist(dL[[3]])),main='shortest paths GO+Ramigo cluster')
 plot(hclust(as.dist(dL[[4]])),main='tissue expression correlation cluster')
 
 plot(hclust(as.dist(d)),main='combined cluster')
+
+# PCoA
+library(ape)
+x<-pcoa(as.dist(d), correction="none", rn=NULL)
+ 
+## S3 method for class 'pcoa':
+biplot((x, Y=NULL, plot.axes = c(1,2), dir.axis1=1, dir.axis2=1, rn=NULL, ...))
 
 
 
