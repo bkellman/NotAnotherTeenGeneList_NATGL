@@ -40,9 +40,9 @@ load_GeneMania <- function(combined=TRUE,type=c('Physical_Interaction','Predicte
 Network_ShortestPaths_distance <- function(terms,Network,func=function(x) x,weighted=TRUE){
 	terms_i = which(names(V(GM_comb)) %in% unique(BM$ensembl_gene_id))
 	if(weighted){
-		sp <- shortest.paths(Network, from=terms_i, to=terms_i ,mode = "all",weights=NULL)
+		sp <- shortest.paths(Network, v=terms_i, to=terms_i ,mode = "all",weights=NULL)
 	}else{
-		sp <- shortest.paths(Network, from=terms_i, to=terms_i ,mode = "all",weights=NA)
+		sp <- shortest.paths(Network, v=terms_i, to=terms_i ,mode = "all",weights=NA)
 	}
 	func(sp)
 }
