@@ -87,7 +87,8 @@ dL[['geneMania_combined_net_weightedShortestPath']] <- Network_ShortestPaths_dis
 dL[['geneMania_combined_net_unweightedShortestPath']] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_comb,weighted=FALSE,func=normalize)
 
 
-types<-c('Physical_Interaction','Predicted','Genetic_Interactions','Pathway','Co-localization','Co-expression','Shared_protein_domains')
+#types<-c('Physical_interactions','Predicted','Genetic_Interactions','Pathway','Co-localization','Co-expression','Shared_protein_domains')
+types<-c("Pathway","Co-expression","Co-localization","Genetic_interactions","Physical_interactions","Predicted","Shared_protein_domains")
 # GeneMania individual
 for(t_i in types){
 	GM_df <- load_GeneMania(combined=FALSE,type=t_i)

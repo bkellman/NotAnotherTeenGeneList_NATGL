@@ -15,13 +15,14 @@ load_HuNet <- function(threshold=.7){
 	return(HuNet)
 }
 
-load_GeneMania <- function(combined=TRUE,type=c('Physical_Interaction','Predicted','Genetic_Interactions','Pathway','Co-localization','Co-expression','Shared_protein_domains'),alltypes=FALSE){
+load_GeneMania <- function(combined=TRUE,type=c("Co-expression","Co-localization","Genetic_interactions","Pathway","Physical_interactions","Predicted","Shared_protein_domains"),alltypes=FALSE){
 	if(combined){
 		r <- read.csv('../data/DATA_Autism_Genomic_Varients/GeneMania/combined/COMBINED.DEFAULT_NETWORKS.BP_COMBINING.txt',sep='\t',stringsAsFactors=FALSE)
 		colnames(r)[3] <- 'weight'
 		g <- graph.data.frame(r,directed=FALSE)
 	}else{
 		ls <- system('ls ../data/DATA_Autism_Genomic_Varients/GeneMania/individual/*.txt',intern=TRUE)
+		if(!any(grepl(type,ls))){stop(paste(type,'is not a valid type'))}
 		rL <- list()
 		for(l in ls){
 			lp <- strsplit(rev(strsplit(l,split='/')[[1]])[1],split='\\.')[[1]]
@@ -40,7 +41,7 @@ load_GeneMania <- function(combined=TRUE,type=c('Physical_Interaction','Predicte
 }
 
 Network_ShortestPaths_distance <- function(terms,Network,func=function(x) x,weighted=TRUE){
-	terms_i = which(names(V(GM_comb)) %in% unique(BM$ensembl_gene_id))
+	terms_i = which(names(V(Network)) %in% unique(terms))
 	if(weighted){
 		sp <- shortest.paths(Network, v=terms_i, to=terms_i ,mode = "all",weights=NULL)
 	}else{
