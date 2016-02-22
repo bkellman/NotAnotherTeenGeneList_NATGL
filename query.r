@@ -115,14 +115,16 @@ for(t_i in types){
 save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 
 ### combine distance matrixes
-dL[['final']] <- combine(dL,sum,BM,gene_ids,gene_type)
-for(i in 1:length(dL)){
-	d_i = dL[[i]]
-	d_i_id <- names(which.max(apply(BM,2,function(x) sum(rownames(d_i) %in% x))))
-	if(!all(rownames(d_i)==colnames(d_i))){stop('distance matrix is not symetrical')}
-	rownames(d_i)=colnames(d_i)=convert(rownames(d_i),d_i_id,'hgnc_symbol',BM)
-	dL[[i]] = d_i
-}
+dL <- lapply(dL,function(d_i) convert_matrix(d_i,BM))
+dL[['final']] <- convert_matrix( combine(dL,sum,BM,gene_ids,gene_type) , BM)
+
+#for(i in 1:length(dL)){
+#	d_i = dL[[i]]
+#	d_i_id <- names(which.max(apply(BM,2,function(x) sum(rownames(d_i) %in% x))))
+#	if(!all(rownames(d_i)==colnames(d_i))){stop('distance matrix is not symetrical')}
+#	rownames(d_i)=colnames(d_i)=convert(rownames(d_i),d_i_id,'hgnc_symbol',BM)
+#	dL[[i]] = d_i
+#}
 
 #rownames(d)=colnames(d)=convert(rownames(d),gene_type,'hgnc_symbol',BM)
 

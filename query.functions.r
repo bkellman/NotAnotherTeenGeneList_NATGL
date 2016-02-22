@@ -145,13 +145,13 @@ combine <- function(dL , func,BM,gene_ids,gene_type,weight=rep(1,length(dL))){
 	d <- matrix(0,length(gene_ids),length(gene_ids),dimnames=list(gene_ids,gene_ids))
 	
 	# convert to gene_type names
-	for(i in 1:length(dL)){
-		d_i = dL[[i]]
-		d_i_id <- names(which.max(apply(BM,2,function(x) sum(rownames(d_i) %in% x))))
-		if(!all(rownames(d_i)==colnames(d_i))){stop('distance matrix is not symetrical')}
-		rownames(d_i)=colnames(d_i)=convert(rownames(d_i),d_i_id,gene_type,BM)
-		dL[[i]] = d_i
-	}
+#	for(i in 1:length(dL)){
+#		d_i = dL[[i]]
+#		d_i_id <- names(which.max(apply(BM,2,function(x) sum(rownames(d_i) %in% x))))
+#		if(!all(rownames(d_i)==colnames(d_i))){stop('distance matrix is not symetrical')}
+#		rownames(d_i)=colnames(d_i)=convert(rownames(d_i),d_i_id,gene_type,BM)
+#		dL[[i]] = d_i
+#	}
 	# apply weights
 	for(i in 1:length(dL)){
 		dL[[i]] = dL[[i]] * weight[i]
