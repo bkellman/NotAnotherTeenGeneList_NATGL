@@ -68,16 +68,21 @@ dev.off()
 
 ######### compute distance
 dL <- list()
+pdf('clusters_out/Hieracical_clustering.pdf')
 
 # GO distance
 dL[['GO_jaccard']] <- 1 - GO_jaccard(BM,gene_ids,gene_type)
+plot(hclust(as.dist(dL[[1]])),main='Jaccard Flat GO Cluster')
 dL[['GO_jaccard_ramigo_flat']] <- 1 - GO_jaccard(BM,gene_ids,gene_type,ramigo_search=TRUE,ramigo_paths=FALSE)
+plot(hclust(as.dist(dL[[2]])),main='Jaccard GO Hierarchy Cluster')
 dL[['GO_jaccard_ramigo_paths']] <- 1 - GO_jaccard(BM,gene_ids,gene_type,ramigo_search=FALSE,ramigo_paths=TRUE)
+plot(hclust(as.dist(dL[[3]])),main='Shortest Paths GO Hierarchy Cluster')
 save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 
 
 # Tissue expression
 dL[['abs_tissue_cor_pearson']] <- 1-abs( cor(t(expression[,-c(1:2)]+1)) )
+plot(hclust(as.dist(dL[[4]])),main='Tissue Espression Correlation Cluster')
 save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 
 
@@ -86,7 +91,9 @@ save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 GM_comb <- load_GeneMania(combined=TRUE)
 normalize <- function(x) x/max(x)
 dL[['geneMania_combined_net_weightedShortestPath']] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_comb,weighted=TRUE,func=normalize)
+plot(hclust(as.dist(dL[[5]])),main='Shortest Paths GeneMania Full Graph Weighted Cluster')
 dL[['geneMania_combined_net_unweightedShortestPath']] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_comb,weighted=FALSE,func=normalize)
+plot(hclust(as.dist(dL[[6]])),main='Shortest Paths GeneMania Full Graph Unweighted Cluster')
 save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 
 
@@ -99,6 +106,8 @@ for(t_i in types){
 	dL[[paste('geneMania_',t_i,'_net_weightedShortestPath',sep='')]] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_df,weighted=TRUE,func=normalize)
 	dL[[paste('geneMania_',t_i,'_net_unweightedShortestPath',sep='')]] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_df,weighted=FALSE,func=normalize)	
 	save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
+	plot(hclust(as.dist(dL[[length(dL)-1]])),main=paste('Shortest Paths GeneMania',t_i,'Graph Weighted Cluster'))
+	plot(hclust(as.dist(dL[[length(dL)]])),main=paste('Shortest Paths GeneMania',t_i,'Graph Unweighted Cluster'))
 }
 
 
@@ -118,7 +127,7 @@ for(i in 1:length(dL)){
 #rownames(d)=colnames(d)=convert(rownames(d),gene_type,'hgnc_symbol',BM)
 
 ### cluster
-par(mfrow=c(1,3))
+#par(mfrow=c(1,3))
 plot(hclust(as.dist(dL[[1]])),main='jaccard GO cluster')
 plot(hclust(as.dist(dL[[2]])),main='jaccard GO+Ramigo cluster')
 plot(hclust(as.dist(dL[[3]])),main='shortest paths GO+Ramigo cluster')

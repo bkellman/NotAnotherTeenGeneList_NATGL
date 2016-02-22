@@ -165,6 +165,13 @@ combine <- function(dL , func,BM,gene_ids,gene_type,weight=rep(1,length(dL))){
 	return(d)
 }
 
+convert_matrix<-function(d_i,BM){
+	d_i_id <- names(which.max(apply(BM,2,function(x) sum(rownames(d_i) %in% x))))
+	if(!all(rownames(d_i)==colnames(d_i))){stop('distance matrix is not symetrical')}
+	rownames(d_i)=colnames(d_i)=convert(rownames(d_i),d_i_id,'hgnc_symbol',BM)
+	d_i
+}
+
 get_dij <- function(d,i,j){
 	if(i %in% rownames(d) & j %in% colnames(d)){
 		d[i,j]
