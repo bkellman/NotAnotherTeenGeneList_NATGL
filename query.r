@@ -73,10 +73,12 @@ dL <- list()
 dL[['GO_jaccard']] <- 1 - GO_jaccard(BM,gene_ids,gene_type)
 dL[['GO_jaccard_ramigo_flat']] <- 1 - GO_jaccard(BM,gene_ids,gene_type,ramigo_search=TRUE,ramigo_paths=FALSE)
 dL[['GO_jaccard_ramigo_paths']] <- 1 - GO_jaccard(BM,gene_ids,gene_type,ramigo_search=FALSE,ramigo_paths=TRUE)
+save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 
 
 # Tissue expression
 dL[['abs_tissue_cor_pearson']] <- 1-abs( cor(t(expression[,-c(1:2)]+1)) )
+save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 
 
 # GeneMania combined 
@@ -85,15 +87,18 @@ GM_comb <- load_GeneMania(combined=TRUE)
 normalize <- function(x) x/max(x)
 dL[['geneMania_combined_net_weightedShortestPath']] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_comb,weighted=TRUE,func=normalize)
 dL[['geneMania_combined_net_unweightedShortestPath']] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_comb,weighted=FALSE,func=normalize)
+save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 
 
 #types<-c('Physical_interactions','Predicted','Genetic_Interactions','Pathway','Co-localization','Co-expression','Shared_protein_domains')
 types<-c("Pathway","Co-expression","Co-localization","Genetic_interactions","Physical_interactions","Predicted","Shared_protein_domains")
 # GeneMania individual
 for(t_i in types){
+	print(paste('GeneMania:',t_i))
 	GM_df <- load_GeneMania(combined=FALSE,type=t_i)
 	dL[[paste('geneMania_',t_i,'_net_weightedShortestPath',sep='')]] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_df,weighted=TRUE,func=normalize)
 	dL[[paste('geneMania_',t_i,'_net_unweightedShortestPath',sep='')]] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_df,weighted=FALSE,func=normalize)	
+	save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 }
 
 
