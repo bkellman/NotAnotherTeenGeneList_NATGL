@@ -24,7 +24,7 @@ load_GeneMania <- function(combined=TRUE,type=c('Physical_Interaction','Predicte
 		ls <- system('ls ../data/DATA_Autism_Genomic_Varients/GeneMania/individual/*.txt',intern=TRUE)
 		rL <- list()
 		for(l in ls){
-			lp <- strsplit(l,split='\\.')[[1]]
+			lp <- strsplit(rev(strsplit(l,split='/')[[1]])[1],split='\\.')[[1]]
 			if(any(lp[1]==type) | alltypes){
 				rL[[l]] <- read.csv(l,sep='\t',stringsAsFactors=FALSE)
 #				rL[[l]] <- read.csv(paste('../data/DATA_Autism_Genomic_Varients/GeneMania/individual/',l,sep=''),sep='\t',stringsAsFactors=FALSE)
