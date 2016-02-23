@@ -97,9 +97,10 @@ dL[['geneMania_combined_net_unweightedShortestPath']] <- Network_ShortestPaths_d
 plot(hclust(as.dist(dL[[6]])),main='Shortest Paths GeneMania Full Graph Unweighted Cluster')
 save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 
+# load('../data/DATA_Autism_Genomic_Varients/dL.rda')
 
 #types<-c('Physical_interactions','Predicted','Genetic_Interactions','Pathway','Co-localization','Co-expression','Shared_protein_domains')
-types<-c("Pathway","Co-expression","Co-localization","Genetic_interactions","Physical_interactions","Predicted","Shared_protein_domains")
+types<-c("Co-expression","Co-localization","Genetic_interactions","Physical_interactions","Predicted","Shared_protein_domains") # without "Pathway"
 # GeneMania individual
 for(t_i in types){
 	print(paste('GeneMania:',t_i))
