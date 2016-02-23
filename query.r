@@ -100,7 +100,7 @@ save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 # load('../data/DATA_Autism_Genomic_Varients/dL.rda')
 
 #types<-c('Physical_interactions','Predicted','Genetic_Interactions','Pathway','Co-localization','Co-expression','Shared_protein_domains')
-types<-c("Co-expression","Co-localization","Genetic_interactions","Physical_interactions","Predicted","Shared_protein_domains") # without "Pathway"
+types<-c("Co-localization","Genetic_interactions","Physical_interactions","Predicted","Shared_protein_domains") # without "Pathway","Co-expression",
 # GeneMania individual
 for(t_i in types){
 	print(paste('GeneMania:',t_i))
