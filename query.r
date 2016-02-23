@@ -75,7 +75,9 @@ dL[['GO_jaccard']] <- 1 - GO_jaccard(BM,gene_ids,gene_type)
 plot(hclust(as.dist(dL[[1]])),main='Jaccard Flat GO Cluster')
 dL[['GO_jaccard_ramigo_flat']] <- 1 - GO_jaccard(BM,gene_ids,gene_type,ramigo_search=TRUE,ramigo_paths=FALSE)
 plot(hclust(as.dist(dL[[2]])),main='Jaccard GO Hierarchy Cluster')
-dL[['GO_jaccard_ramigo_paths']] <- 1 - GO_jaccard(BM,gene_ids,gene_type,ramigo_search=FALSE,ramigo_paths=TRUE)
+dL[['GO_jaccard_ramigo_paths']] <- GO_jaccard(BM,gene_ids,gene_type,ramigo_search=FALSE,ramigo_paths=TRUE)
+dL[['GO_jaccard_ramigo_paths']] <- ifelse(is.finite(dL[['GO_jaccard_ramigo_paths']]),dL[['GO_jaccard_ramigo_paths']] ,1)
+dL[['GO_jaccard_ramigo_paths']] <- normalize(dL[['GO_jaccard_ramigo_paths']])
 plot(hclust(as.dist(dL[[3]])),main='Shortest Paths GO Hierarchy Cluster')
 save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 
@@ -89,7 +91,6 @@ save(dL,file='../data/DATA_Autism_Genomic_Varients/dL.rda')
 # GeneMania combined 
 # wget -r --no-parent http://genemania.org/data/current/Homo_sapiens/
 GM_comb <- load_GeneMania(combined=TRUE)
-normalize <- function(x) x/max(x)
 dL[['geneMania_combined_net_weightedShortestPath']] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_comb,weighted=TRUE,func=normalize)
 plot(hclust(as.dist(dL[[5]])),main='Shortest Paths GeneMania Full Graph Weighted Cluster')
 dL[['geneMania_combined_net_unweightedShortestPath']] <- Network_ShortestPaths_distance(unique(BM$ensembl_gene_id),GM_comb,weighted=FALSE,func=normalize)

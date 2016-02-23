@@ -140,6 +140,8 @@ GO_Ramigo_mostRecentAncestor <- function(go1,go2,func=median){
 	func(sp)
 }
 
+normalize <- function(x) x/max(na.omit(as.vector(x)))
+
 combine <- function(dL , func,BM,gene_ids,gene_type,weight=rep(1,length(dL))){
 	#initialize final distance matrix
 	d <- matrix(0,length(gene_ids),length(gene_ids),dimnames=list(gene_ids,gene_ids))
